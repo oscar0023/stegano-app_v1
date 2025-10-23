@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔐 Stéganographie LSB - Application</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">🔐</div>
+                <div>
+                    <h1>Stéganographie LSB</h1>
+                    <p class="subtitle">Cachez vos secrets dans des images</p>
+                </div>
+            </div>
+            <div>
+                <span class="badge">🎓 Oscar ALIDJINOU </span>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="tabs">
+            <button class="tab-btn active" data-tab="encode">
+                <span style="font-size: 24px;">🔒</span>
+                <span>Encoder</span>
+            </button>
+            <button class="tab-btn" data-tab="decode">
+                <span style="font-size: 24px;">🔓</span>
+                <span>Décoder</span>
+            </button>
+            <button class="tab-btn" data-tab="about">
+                <span style="font-size: 24px;">ℹ️</span>
+                <span>À propos</span>
+            </button>
+        </nav>
+
+        <!-- Encode Tab -->
+        <div id="encode-tab" class="content-card tab-content active">
+            <h2 class="section-title">
+                <span style="font-size: 32px;">🔒</span>
+                Encoder un message secret
+            </h2>
+
+            <!-- Upload Zone -->
+            <form id="encode-form" enctype="multipart/form-data">
+                <div class="upload-zone" id="encode-upload">
+                    <div class="upload-icon">📤</div>
+                    <h3>Glissez votre image ici</h3>
+                    <p style="color: #718096;">ou cliquez pour sélectionner</p>
+                    <span class="upload-hint">PNG, JPG, BMP • Max 10 MB</span>
+                    <input type="file" id="encode-image" name="image" accept="image/*" style="display: none;">
+                </div>
+
+                <!-- Image Preview -->
+                <div id="encode-preview" class="image-preview" style="display: none;">
+                    <img id="encode-preview-img" class="preview-img" src="" alt="Aperçu">
+                </div>
+
+                <!-- Message Input -->
+                <div class="input-group">
+                    <label class="input-label">
+                        <span style="font-size: 20px;">✍️</span>
+                        Message secret
+                    </label>
+                    <textarea id="encode-message" class="message-textarea" name="message" placeholder="Entrez votre message secret ici..."></textarea>
+                    <div class="input-footer">
+                        <span id="char-count" style="font-size: 14px; color: #718096;">0 caractères</span>
+                        <div class="capacity-bar">
+                            <div id="capacity-fill" class="capacity-fill" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Button -->
+                <div style="text-align: center; margin-top: 30px;">
+                    <button type="submit" class="btn btn-primary">
+                        <span style="font-size: 20px;">🔒</span>
+                        <span>Cacher le message</span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Results -->
+            <div id="encode-results" style="display: none;">
+                <!-- Success Alert -->
+                <div class="alert alert-success">
+                    <div class="alert-icon">✅</div>
+                    <div>
+                        <h4 style="margin-bottom: 5px;">Message caché avec succès!</h4>
+                        <p id="success-details"></p>
+                    </div>
+                </div>
+
+                <!-- Encoded Image -->
+                <div class="image-preview">
+                    <img id="encoded-preview" class="preview-img" src="" alt="Image encodée">
+                    <div class="image-badge">🔐 Encodée</div>
+                </div>
+
+                <!-- Download Buttons -->
+                <div style="display: flex; gap: 15px; justify-content: center; margin-top: 30px; flex-wrap: wrap;">
+                    <button id="download-btn" class="btn btn-success">
+                        <span style="font-size: 20px;">💾</span>
+                        <span>Télécharger l'image</span>
+                    </button>
+                    <button id="new-encode-btn" class="btn" style="background: white; color: #667eea; border: 2px solid #667eea;">
+                        <span style="font-size: 20px;">🔄</span>
+                        <span>Nouvelle image</span>
+                    </button>
+                    <button id="more-info-btn" class="btn" style="background: #ed8936; color: white;">
+                        <span style="font-size: 20px;">🔍</span>
+                        <span>Plus d'infos</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Decode Tab -->
+        <div id="decode-tab" class="content-card tab-content">
+            <h2 class="section-title">
+                <span style="font-size: 32px;">🔓</span>
+                Décoder un message secret
+            </h2>
+
+            <form id="decode-form" enctype="multipart/form-data">
+                <!-- Upload Zone -->
+                <div class="upload-zone" id="decode-upload">
+                    <div class="upload-icon">📤</div>
+                    <h3>Glissez l'image codée ici</h3>
+                    <p style="color: #718096;">ou cliquez pour sélectionner</p>
+                    <span class="upload-hint">PNG, JPG, BMP • Max 10 MB</span>
+                    <input type="file" id="decode-image" name="image" accept="image/*" style="display: none;">
+                </div>
+
+                <!-- Image Preview -->
+                <div id="decode-preview" class="image-preview" style="display: none;">
+                    <img id="decode-preview-img" class="preview-img" src="" alt="Aperçu">
+                </div>
+
+                <!-- Decode Button -->
+                <div style="text-align: center; margin-top: 30px;">
+                    <button type="submit" class="btn btn-primary">
+                        <span style="font-size: 20px;">🔓</span>
+                        <span>Décoder le message</span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Decode Results -->
+            <div id="decode-results" style="display: none;">
+                <div class="alert alert-success">
+                    <div class="alert-icon">✅</div>
+                    <div>
+                        <h4 style="margin-bottom: 5px;">Message décodé avec succès!</h4>
+                        <div class="input-group">
+                            <label class="input-label">
+                                <span style="font-size: 20px;">📝</span>
+                                Message secret trouvé
+                            </label>
+                            <textarea id="decoded-message" class="message-textarea" readonly></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Tab -->
+        <div id="about-tab" class="content-card tab-content">
+            <h2 class="section-title">
+                <span style="font-size: 32px;">ℹ️</span>
+                À propos de cette application
+            </h2>
+
+            <div class="info-card">
+                <h3>💡 Principe LSB</h3>
+                <p>LSB (Least Significant Bit) modifie le dernier bit de chaque composante RGB des pixels. Ces modifications sont invisibles à l'œil nu.</p>
+                <div class="code-block">
+                    <code>Pixel RGB: (152, 47, 89)</code>
+                    <code>En binaire: (10011000, 00101111, 01011001)</code>
+                    <code>Modifié: (10011001, 00101110, 01011000)</code>
+                    <code>Nouveau RGB: (153, 46, 88) ← Imperceptible!</code>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h3>🛠️ Technologies utilisées</h3>
+                <div class="tech-grid">
+                    <div class="tech-item">
+                        <span style="font-size: 24px;">🐍</span>
+                        <span>Python 3.x</span>
+                    </div>
+                    <div class="tech-item">
+                        <span style="font-size: 24px;">🌶️</span>
+                        <span>Flask</span>
+                    </div>
+                    <div class="tech-item">
+                        <span style="font-size: 24px;">🎨</span>
+                        <span>Pillow (PIL)</span>
+                    </div>
+                    <div class="tech-item">
+                        <span style="font-size: 24px;">💻</span>
+                        <span>HTML5/CSS3</span>
+                    </div>
+                    <div class="tech-item">
+                        <span style="font-size: 24px;">⚡</span>
+                        <span>JavaScript</span>
+                    </div>
+                    <div class="tech-item">
+                        <span style="font-size: 24px;">📊</span>
+                        <span>NumPy</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h3>🔧 Fonctionnalités</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 8px 0; display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 20px;">✅</span>
+                        <span>Encodage/décodage LSB robuste</span>
+                    </li>
+                    <li style="padding: 8px 0; display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 20px;">✅</span>
+                        <span>Interface drag & drop</span>
+                    </li>
+                    <li style="padding: 8px 0; display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 20px;">✅</span>
+                        <span>Support PNG, JPG, BMP</span>
+                    </li>
+                    <li style="padding: 8px 0; display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 20px;">✅</span>
+                        <span>Informations détaillées d'encodage</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p style="font-size: 16px; margin-bottom: 10px;">🔐 Stéganographie LSB • 2025</p>
+            <p style="font-size: 14px; color: rgba(255,255,255,0.7);">@Oscar_ALIDJINOU - Tous droits réservés</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
