@@ -4,7 +4,6 @@ Une application web moderne et interactive pour cacher et récupérer des messag
 
 [![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-2.3.3-green.svg)](https://flask.palletsprojects.com/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Demo](https://img.shields.io/badge/Demo-Live-success.svg)](https://stegano-app.onrender.com/)
 
 ## 🌟 Démo en ligne
@@ -24,7 +23,6 @@ Une application web moderne et interactive pour cacher et récupérer des messag
 - [Captures d'écran](#-captures-décran)
 - [Contributions](#-contributions)
 - [Auteur](#-auteur)
-- [Licence](#-licence)
 
 ## 🎯 Aperçu
 
